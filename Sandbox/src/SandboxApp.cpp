@@ -33,6 +33,8 @@ SandboxApp::SandboxApp() {
     RE_INFO("Triangle resources created");
 
     m_Texture = RealEngine::Texture2D::Create("Assets/Textures/wall.jpg");
+
+    m_transform = RealEngine::CreateTransform({0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {1.0f, 1.0f, 1.0f});
 }
 
 SandboxApp::~SandboxApp() {
@@ -43,10 +45,18 @@ void SandboxApp::OnUpdate(RealEngine::Timestep ts) {
     m_VertexArray->Bind();
     m_Shader->Bind();
 
-    m_Shader->SetFloat("u_time", (float)RealEngine::Time::GetTime());
+    float time = static_cast<float>(RealEngine::Time::GetTime());
 
     m_Texture->Bind(0);
     m_Shader->SetInt("u_Texture", 0);
+
+    // Circular movement
+    float x = std::sin(time) * 0.5f;
+    float y = std::cos(time) * 0.5f;
+
+    m_transform = RealEngine::CreateTransform({x, y, 0.0f}, {0.0f, 0.0f, time}, {1.0f, 1.0f, 1.0f});
+
+    m_Shader->SetMat4("u_Transform", m_transform);
 
     RealEngine::Renderer::DrawIndexed(m_VertexArray->GetIndexBuffer()->GetCount());
 }
