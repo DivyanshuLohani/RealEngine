@@ -3,9 +3,8 @@
 #include "Core/Assert.h"
 #include "Core/Log.h"
 
-#include <GLFW/glfw3.h>
 #include <glad/gl.h>
-
+#include <GLFW/glfw3.h>
 
 namespace RealEngine {
 
