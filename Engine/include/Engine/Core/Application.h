@@ -24,6 +24,7 @@ public:
     void Close();
 
     virtual void OnUpdate(Timestep ts) {}
+    virtual void OnFixedUpdate(Timestep dt) {}
     virtual void OnEvent(Event& e);
 
     Window& GetWindow() { return *m_Window; }
@@ -39,6 +40,8 @@ private:
     bool m_Minimized = false;
 
     static Application* s_Instance;
+
+    float m_PhysicsFrameRate = 60.0f; // Physics update rate in Hz
 };
 
 // Implemented by the client application (e.g. Sandbox).

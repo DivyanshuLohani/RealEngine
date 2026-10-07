@@ -37,12 +37,17 @@ void Application::Run() {
         const Timestep ts(std::chrono::duration<float>(now - lastFrameTime).count());
         lastFrameTime = now;
 
+        const Timestep dt = 1 / m_PhysicsFrameRate;
+
         // Clear the back buffer with the current clear colour, then let the
         // application update and (from Phase 2) submit draw work.
         Renderer::Clear();
 
         if (!m_Minimized)
             OnUpdate(ts);
+
+        if (!m_Minimized)
+            OnFixedUpdate(dt);
 
         // Poll OS events and present the frame.
         m_Window->OnUpdate();
