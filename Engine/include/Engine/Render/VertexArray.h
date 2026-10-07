@@ -7,8 +7,6 @@
 
 namespace RealEngine {
 
-// Combines vertex buffers + a buffer layout into a drawable vertex
-// specification (a VAO in OpenGL terms).
 class VertexArray {
 public:
     virtual ~VertexArray() = default;
@@ -22,7 +20,7 @@ public:
     virtual const std::vector<Ref<VertexBuffer>>& GetVertexBuffers() const = 0;
     virtual const Ref<IndexBuffer>& GetIndexBuffer() const = 0;
 
-    // Phase 2: static Ref<VertexArray> Create();
+    static Ref<VertexArray> Create();
 };
 
 } // namespace RealEngine

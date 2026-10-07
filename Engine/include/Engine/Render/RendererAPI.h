@@ -9,12 +9,7 @@ namespace RealEngine {
 // keeps the rest of the engine free of any OpenGL/Vulkan/D3D headers.
 class RendererAPI {
 public:
-    enum class API {
-        None = 0,
-        OpenGL = 1,
-        Vulkan = 2,
-        Direct3D11 = 3
-    };
+    enum class API { None = 0, OpenGL = 1, Vulkan = 2, Direct3D11 = 3 };
 
     virtual ~RendererAPI() = default;
 
@@ -23,7 +18,8 @@ public:
     virtual void SetClearColor(float r, float g, float b, float a) = 0;
     virtual void Clear() = 0;
 
-    // Phase 2 will add: DrawIndexed / DrawArrays / DrawLines.
+    virtual void DrawArrays(uint32_t vertexCount) = 0;
+    virtual void DrawIndexed(uint32_t indexCount) = 0;
 
     static API GetAPI() { return s_API; }
     static void SetAPI(API api) { s_API = api; }

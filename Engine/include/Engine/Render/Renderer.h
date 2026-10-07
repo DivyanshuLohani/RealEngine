@@ -14,7 +14,6 @@ public:
     static void Init();
     static void Shutdown();
 
-    // Frame boundaries. Phase 2 will flush a render queue between these calls.
     static void BeginFrame();
     static void EndFrame();
 
@@ -22,6 +21,10 @@ public:
 
     static void SetClearColor(float r, float g, float b, float a = 1.0f);
     static void SetClearColor(const glm::vec4& color);
+
+    static void DrawArrays(uint32_t vertexCount);
+    static void DrawIndexed(uint32_t indexCount);
+
     static void Clear();
 
     static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }

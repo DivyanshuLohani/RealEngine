@@ -25,13 +25,9 @@ void Renderer::Shutdown() {
     s_RendererAPI.reset();
 }
 
-void Renderer::BeginFrame() {
-    // Phase 2: reset the render queue / per-frame state here.
-}
+void Renderer::BeginFrame() {}
 
-void Renderer::EndFrame() {
-    // Phase 2: flush the render queue here.
-}
+void Renderer::EndFrame() {}
 
 void Renderer::SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) {
     s_RendererAPI->SetViewport(x, y, width, height);
@@ -43,6 +39,14 @@ void Renderer::SetClearColor(float r, float g, float b, float a) {
 
 void Renderer::SetClearColor(const glm::vec4& color) {
     s_RendererAPI->SetClearColor(color.r, color.g, color.b, color.a);
+}
+
+void Renderer::DrawArrays(uint32_t vertexCount) {
+    s_RendererAPI->DrawArrays(vertexCount);
+}
+
+void Renderer::DrawIndexed(uint32_t indexCount) {
+    s_RendererAPI->DrawIndexed(indexCount);
 }
 
 void Renderer::Clear() {

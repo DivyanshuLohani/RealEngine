@@ -1,28 +1,32 @@
 #include "Engine/Platform/OpenGL/OpenGLShader.h"
+#include "Engine/Core/Log.h"
 
 #include <fstream>
 #include <iostream>
 #include <sstream>
-#include <stdexcept>
 
 namespace RealEngine {
 
 OpenGLShader::OpenGLShader(const std::string& filepath) : m_RendererID(0) {
     std::ifstream file(filepath);
 
-    if (!file.is_open())
-        throw std::runtime_error("Could not open shader file: " + filepath);
+    if (!file.is_open()) {
+        RE_CORE_ERROR("Failed to open shader file: {0}", filepath);
+        return;
+    }
 
     std::stringstream buffer;
     buffer << file.rdbuf();
     std::string source = buffer.str();
 
-    // Find shader types
     const std::string typeToken = "#type";
     size_t pos = source.find(typeToken);
 
-    if (pos == std::string::npos)
-        throw std::runtime_error("Shader file missing #type declarations: " + filepath);
+    if (pos == std::string::npos) {
+        file.close();
+        RE_CORE_ERROR("Shader file does not contain shader type declaration: {0}", filepath);
+        return;
+    }
 
     std::unordered_map<GLenum, std::string> shaderSources;
 
@@ -38,8 +42,11 @@ OpenGLShader::OpenGLShader(const std::string& filepath) : m_RendererID(0) {
             shaderType = GL_VERTEX_SHADER;
         else if (type == "fragment" || type == "pixel")
             shaderType = GL_FRAGMENT_SHADER;
-        else
-            throw std::runtime_error("Unknown shader type: " + type);
+        else {
+            file.close();
+            RE_CORE_ERROR("Unknown shader type specified in shader file: {0}", type);
+            return;
+        }
 
         size_t nextLine = source.find_first_not_of("\r\n", eol);
         pos = source.find(typeToken, nextLine);
@@ -69,7 +76,8 @@ OpenGLShader::OpenGLShader(const std::string& filepath) : m_RendererID(0) {
 
         glad_glDeleteShader(vertexShader);
 
-        throw std::runtime_error("Vertex shader compilation failed:\n" + std::string(infoLog));
+        RE_CORE_ERROR("Vertex shader compilation failed:\n{0}", infoLog);
+        return;
     }
 
     // Compile fragment shader
@@ -88,7 +96,8 @@ OpenGLShader::OpenGLShader(const std::string& filepath) : m_RendererID(0) {
         glad_glDeleteShader(vertexShader);
         glad_glDeleteShader(fragmentShader);
 
-        throw std::runtime_error("Fragment shader compilation failed:\n" + std::string(infoLog));
+        RE_CORE_ERROR("Fragment shader compilation failed:\n{0}", infoLog);
+        return;
     }
 
     // Create shader program
@@ -110,7 +119,8 @@ OpenGLShader::OpenGLShader(const std::string& filepath) : m_RendererID(0) {
         glad_glDeleteProgram(m_RendererID);
         m_RendererID = 0;
 
-        throw std::runtime_error("Shader program linking failed:\n" + std::string(infoLog));
+        RE_CORE_ERROR("Shader program linking failed:\n{0}", infoLog);
+        return;
     }
 
     // Shaders are no longer needed after linking
@@ -136,7 +146,8 @@ OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc
 
         glad_glDeleteShader(vertexShader);
 
-        throw std::runtime_error("Vertex shader compilation failed:\n" + std::string(infoLog));
+        RE_CORE_ERROR("Vertex shader compilation failed:\n{0}", infoLog);
+        return;
     }
 
     // Compile fragment shader
@@ -155,7 +166,8 @@ OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc
         glad_glDeleteShader(vertexShader);
         glad_glDeleteShader(fragmentShader);
 
-        throw std::runtime_error("Fragment shader compilation failed:\n" + std::string(infoLog));
+        RE_CORE_ERROR("Fragment shader compilation failed:\n{0}", infoLog);
+        return;
     }
 
     // Create program
@@ -177,7 +189,8 @@ OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc
         glad_glDeleteProgram(m_RendererID);
         m_RendererID = 0;
 
-        throw std::runtime_error("Shader program linking failed:\n" + std::string(infoLog));
+        RE_CORE_ERROR("Shader program linking failed:\n{0}", infoLog);
+        return;
     }
 
     glad_glDeleteShader(vertexShader);
