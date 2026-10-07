@@ -38,6 +38,8 @@ preferred when present, otherwise pinned releases are fetched with `FetchContent
 | GLM     | Math |
 | spdlog  | Logging |
 | stb     | Image loading (stb_image) |
+| ImGui   | Immediate mode debug GUI & docking |
+
 
 ## Building
 

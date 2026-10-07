@@ -25,7 +25,10 @@ public:
 
     virtual void OnUpdate(Timestep ts) {}
     virtual void OnFixedUpdate(Timestep dt) {}
-    virtual void OnEvent(Event& e);
+    virtual void OnImGuiRender() {}
+    virtual void OnAppEvent(Event& e) {}
+
+    void OnEvent(Event& e);
 
     Window& GetWindow() { return *m_Window; }
 
@@ -36,6 +39,7 @@ private:
     bool OnWindowResize(WindowResizeEvent& e);
 
     Scope<Window> m_Window;
+    Scope<class ImGuiLayer> m_ImGuiLayer;
     bool m_Running = true;
     bool m_Minimized = false;
 

@@ -61,7 +61,17 @@ void SandboxApp::OnUpdate(RealEngine::Timestep ts) {
     RealEngine::Renderer::DrawIndexed(m_VertexArray->GetIndexBuffer()->GetCount());
 }
 
-void SandboxApp::OnEvent(RealEngine::Event& e) {
+void SandboxApp::OnImGuiRender() {
+    ImGui::Begin("Demo / Settings");
+    ImGui::Text("Application runtime: %.2f s", RealEngine::Time::GetTime());
+    ImGui::Text("Frametime: %.3f ms (%.1f FPS)", RealEngine::Time::GetDeltaTime().GetMilliseconds(),
+                1.0f / (RealEngine::Time::GetDeltaTime().GetSeconds() > 0.0f
+                            ? RealEngine::Time::GetDeltaTime().GetSeconds()
+                            : 0.001f));
+    ImGui::End();
+}
+
+void SandboxApp::OnAppEvent(RealEngine::Event& e) {
     RealEngine::EventDispatcher dispatcher(e);
 
     dispatcher.Dispatch<RealEngine::KeyPressedEvent>([](RealEngine::KeyPressedEvent& event) {
@@ -72,11 +82,5 @@ void SandboxApp::OnEvent(RealEngine::Event& e) {
         }
 
         return false;
-    });
-
-    dispatcher.Dispatch<RealEngine::WindowCloseEvent>([](RealEngine::WindowCloseEvent& event) {
-        RE_INFO("Window close event received - requesting close");
-        RealEngine::Application::Get().Close();
-        return true;
     });
 }

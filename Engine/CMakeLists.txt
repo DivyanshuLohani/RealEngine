@@ -22,6 +22,7 @@ target_link_libraries(RealEngine
     PUBLIC
         glm::glm
         spdlog::spdlog
+        imgui::imgui
     PRIVATE
         glfw
         glad_gl_core_46

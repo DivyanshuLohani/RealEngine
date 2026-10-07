@@ -8,7 +8,8 @@ public:
     ~SandboxApp() override;
 
     void OnUpdate(RealEngine::Timestep ts) override;
-    void OnEvent(RealEngine::Event& e) override;
+    void OnImGuiRender() override;
+    void OnAppEvent(RealEngine::Event& e) override;
 
 private:
     RealEngine::Ref<RealEngine::VertexArray> m_VertexArray;

@@ -14,6 +14,9 @@
 #include "Events/KeyEvent.h"
 #include "Events/MouseEvent.h"
 
+#include "ImGui/ImGuiLayer.h"
+#include <imgui.h>
+
 #include "Input/KeyCodes.h"
 #include "Input/MouseCodes.h"
 

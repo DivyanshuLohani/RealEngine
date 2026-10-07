@@ -3,6 +3,7 @@
 #include "Core/Assert.h"
 #include "Core/Log.h"
 #include "Core/Time.h"
+#include "ImGui/ImGuiLayer.h"
 #include "Render/Renderer.h"
 
 #include <chrono>
@@ -22,9 +23,13 @@ Application::Application(const std::string& name) {
     Renderer::SetViewport(0, 0, m_Window->GetWidth(), m_Window->GetHeight());
 
     m_Window->SetVSync(true);
+
+    m_ImGuiLayer = CreateScope<ImGuiLayer>();
+    m_ImGuiLayer->Init();
 }
 
 Application::~Application() {
+    m_ImGuiLayer->Shutdown();
     Renderer::Shutdown();
 }
 
@@ -49,6 +54,10 @@ void Application::Run() {
 
         if (!m_Minimized)
             OnFixedUpdate(dt);
+
+        m_ImGuiLayer->Begin();
+        OnImGuiRender();
+        m_ImGuiLayer->End();
 
         // Poll OS events and present the frame.
         m_Window->OnUpdate();
@@ -79,6 +88,10 @@ void Application::OnEvent(Event& e) {
     EventDispatcher dispatcher(e);
     dispatcher.Dispatch<WindowCloseEvent>(RE_BIND_EVENT_FN(Application::OnWindowClose));
     dispatcher.Dispatch<WindowResizeEvent>(RE_BIND_EVENT_FN(Application::OnWindowResize));
+
+    if (!e.Handled) {
+        OnAppEvent(e);
+    }
 }
 
 } // namespace RealEngine
