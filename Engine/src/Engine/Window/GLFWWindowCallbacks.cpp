@@ -1,7 +1,7 @@
 #include "GLFWWindow.h"
 
-#include "Engine/Events/KeyEvent.h"
-#include "Engine/Events/MouseEvent.h"
+#include "Events/KeyEvent.h"
+#include "Events/MouseEvent.h"
 
 #include <GLFW/glfw3.h>
 

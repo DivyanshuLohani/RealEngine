@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Engine/Core/Base.h"
-#include "Engine/Render/RendererAPI.h"
+#include "Core/Base.h"
+#include "Render/RendererAPI.h"
 
 #include <glm/glm.hpp>
 

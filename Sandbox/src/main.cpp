@@ -1,4 +1,4 @@
-#include <Engine/Core/EntryPoint.h>
+#include <Core/EntryPoint.h>
 
 #include "SandboxApp.h"
 

@@ -1,8 +1,9 @@
-#include "Engine/Core/Application.h"
+#include "Core/Application.h"
 
-#include "Engine/Core/Assert.h"
-#include "Engine/Core/Log.h"
-#include "Engine/Render/Renderer.h"
+#include "Core/Assert.h"
+#include "Core/Log.h"
+#include "Core/Time.h"
+#include "Render/Renderer.h"
 
 #include <chrono>
 
@@ -36,6 +37,8 @@ void Application::Run() {
         const auto now = Clock::now();
         const Timestep ts(std::chrono::duration<float>(now - lastFrameTime).count());
         lastFrameTime = now;
+
+        Time::Update(ts);
 
         const Timestep dt = 1 / m_PhysicsFrameRate;
 

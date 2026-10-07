@@ -1,5 +1,5 @@
-#include "Engine/Platform/OpenGL/OpenGLShader.h"
-#include "Engine/Core/Log.h"
+#include "Platform/OpenGL/OpenGLShader.h"
+#include "Core/Log.h"
 
 #include <fstream>
 #include <iostream>

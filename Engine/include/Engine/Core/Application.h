@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Engine/Core/Base.h"
-#include "Engine/Core/Timestep.h"
-#include "Engine/Events/ApplicationEvent.h"
-#include "Engine/Events/Event.h"
-#include "Engine/Window/Window.h"
+#include "Core/Base.h"
+#include "Core/Timestep.h"
+#include "Events/ApplicationEvent.h"
+#include "Events/Event.h"
+#include "Window/Window.h"
 
 #include <string>
 

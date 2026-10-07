@@ -1,7 +1,7 @@
-#include "Engine/Render/Buffer.h"
+#include "Render/Buffer.h"
 
-#include "Engine/Core/Assert.h"
-#include "Engine/Platform/OpenGL/OpenGLBuffer.h"
+#include "Core/Assert.h"
+#include "Platform/OpenGL/OpenGLBuffer.h"
 
 namespace RealEngine {
 

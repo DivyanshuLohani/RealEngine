@@ -1,8 +1,6 @@
 #pragma once
 
-#include "Engine/Core/Application.h"
-#include "Engine/Render/Shader.h"
-#include "Engine/Render/VertexArray.h"
+#include <RealEngine.h>
 
 class SandboxApp : public RealEngine::Application {
 public:

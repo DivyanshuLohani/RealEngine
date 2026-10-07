@@ -1,7 +1,7 @@
-#include "Engine/Render/Renderer.h"
+#include "Render/Renderer.h"
 
-#include "Engine/Core/Assert.h"
-#include "Engine/Platform/OpenGL/OpenGLRendererAPI.h"
+#include "Core/Assert.h"
+#include "Platform/OpenGL/OpenGLRendererAPI.h"
 
 namespace RealEngine {
 
