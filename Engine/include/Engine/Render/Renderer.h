@@ -2,6 +2,7 @@
 
 #include "Core/Base.h"
 #include "Render/RendererAPI.h"
+#include "Render/VertexArray.h"
 
 #include <glm/glm.hpp>
 
@@ -23,7 +24,10 @@ public:
     static void SetClearColor(const glm::vec4& color);
 
     static void DrawArrays(uint32_t vertexCount);
+    static void DrawArrays(const Ref<VertexArray>& vertexArray, uint32_t vertexCount);
+
     static void DrawIndexed(uint32_t indexCount);
+    static void DrawIndexed(const Ref<VertexArray>& vertexArray, uint32_t indexCount);
 
     static void Clear();
 

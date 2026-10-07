@@ -25,6 +25,7 @@ target_link_libraries(RealEngine
     PRIVATE
         glfw
         glad_gl_core_46
+        stb::stb
 )
 
 if(WIN32)

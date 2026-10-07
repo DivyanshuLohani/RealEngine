@@ -37,6 +37,7 @@ preferred when present, otherwise pinned releases are fetched with `FetchContent
 | glad2   | OpenGL 4.6 core function loader |
 | GLM     | Math |
 | spdlog  | Logging |
+| stb     | Image loading (stb_image) |
 
 ## Building
 

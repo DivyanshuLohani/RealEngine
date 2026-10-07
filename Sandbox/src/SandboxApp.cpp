@@ -2,19 +2,15 @@
 
 SandboxApp::SandboxApp() {
     RE_INFO("SandboxApp created");
-
-    float vertices[] = {
-        // Position              // Color
-        0.5f,  0.5f,  0.0f, 1.0f, 0.0f, 0.0f, // Top right
-        -0.5f, 0.5f,  0.0f, 0.0f, 1.0f, 0.0f, // Top left
-        -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, // Bottom left
-        0.5f,  -0.5f, 0.0f, 1.0f, 1.0f, 0.0f  // Bottom right
-    };
+    float vertices[] = {// Position             Color              UV
+                        0.5f,  0.5f,  0.0f, 1, 0, 0, 1, 1, -0.5f, 0.5f,  0.0f, 0, 1, 0, 0, 1,
+                        -0.5f, -0.5f, 0.0f, 0, 0, 1, 0, 0, 0.5f,  -0.5f, 0.0f, 1, 1, 0, 1, 0};
 
     auto vertexBuffer = RealEngine::VertexBuffer::Create(vertices, sizeof(vertices));
 
     RealEngine::BufferLayout layout = {{RealEngine::ShaderDataType::Float3, "a_Position"},
-                                       {RealEngine::ShaderDataType::Float3, "a_Color"}};
+                                       {RealEngine::ShaderDataType::Float3, "a_Color"},
+                                       {RealEngine::ShaderDataType::Float2, "a_TexCoord"}};
 
     vertexBuffer->SetLayout(layout);
 
@@ -35,6 +31,8 @@ SandboxApp::SandboxApp() {
     m_Shader->SetFloat2("u_resolution", {(float)RealEngine::Application::Get().GetWindow().GetWidth(),
                                          (float)RealEngine::Application::Get().GetWindow().GetHeight()});
     RE_INFO("Triangle resources created");
+
+    m_Texture = RealEngine::Texture2D::Create("Assets/Textures/wall.jpg");
 }
 
 SandboxApp::~SandboxApp() {
@@ -46,6 +44,9 @@ void SandboxApp::OnUpdate(RealEngine::Timestep ts) {
     m_Shader->Bind();
 
     m_Shader->SetFloat("u_time", (float)RealEngine::Time::GetTime());
+
+    m_Texture->Bind(0);
+    m_Shader->SetInt("u_Texture", 0);
 
     RealEngine::Renderer::DrawIndexed(m_VertexArray->GetIndexBuffer()->GetCount());
 }

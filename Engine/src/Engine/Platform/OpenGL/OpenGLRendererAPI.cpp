@@ -28,7 +28,7 @@ void OpenGLRendererAPI::DrawArrays(uint32_t vertexCount) {
     glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(vertexCount));
 }
 
-void OpenGLRendererAPI::DrawIndexed(uint32_t indexCount) {
+void OpenGLRendererAPI::DrawIndexed(uint32_t indexCount, uint32_t indexType) {
     glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(indexCount), GL_UNSIGNED_INT, nullptr);
 }
 

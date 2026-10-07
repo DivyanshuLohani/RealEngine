@@ -19,7 +19,7 @@ public:
     virtual void Clear() = 0;
 
     virtual void DrawArrays(uint32_t vertexCount) = 0;
-    virtual void DrawIndexed(uint32_t indexCount) = 0;
+    virtual void DrawIndexed(uint32_t indexCount, uint32_t indexType) = 0;
 
     static API GetAPI() { return s_API; }
     static void SetAPI(API api) { s_API = api; }

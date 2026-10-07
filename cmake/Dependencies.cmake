@@ -82,3 +82,20 @@ if(RE_RENDERER_OPENGL)
     FetchContent_MakeAvailable(glad)
     glad_add_library(glad_gl_core_46 STATIC REPRODUCIBLE API gl:core=4.6)
 endif()
+
+# ---------------------------------------------------------------------------
+# stb - image loading / utilities
+# ---------------------------------------------------------------------------
+message(STATUS "[RealEngine] Fetching stb")
+FetchContent_Declare(stb
+    GIT_REPOSITORY https://github.com/nothings/stb.git
+    GIT_TAG        master
+    GIT_SHALLOW    TRUE)
+FetchContent_MakeAvailable(stb)
+
+if(NOT TARGET stb::stb)
+    add_library(stb INTERFACE)
+    add_library(stb::stb ALIAS stb)
+    target_include_directories(stb INTERFACE ${stb_SOURCE_DIR})
+endif()
+

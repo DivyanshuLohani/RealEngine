@@ -46,7 +46,17 @@ void Renderer::DrawArrays(uint32_t vertexCount) {
 }
 
 void Renderer::DrawIndexed(uint32_t indexCount) {
-    s_RendererAPI->DrawIndexed(indexCount);
+    s_RendererAPI->DrawIndexed(indexCount, 0);
+}
+
+void Renderer::DrawArrays(const Ref<VertexArray>& vertexArray, uint32_t vertexCount) {
+    vertexArray->Bind();
+    s_RendererAPI->DrawArrays(vertexCount);
+}
+
+void Renderer::DrawIndexed(const Ref<VertexArray>& vertexArray, uint32_t indexCount) {
+    vertexArray->Bind();
+    s_RendererAPI->DrawIndexed(indexCount, 0);
 }
 
 void Renderer::Clear() {
