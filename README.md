@@ -70,7 +70,7 @@ RealEngine/
 ## Roadmap
 
 - [x] **Phase 0** — Project skeleton, build system, GLFW window, logging, events, clear-color loop
-- [ ] **Phase 1** — Delta time, input abstraction, resize handling
+- [X] **Phase 1** — Delta time, input abstraction, resize handling
 - [ ] **Phase 2** — RHI + OpenGL backend: buffers, shaders, vertex arrays, first triangle
 - [ ] **Phase 3** — Cameras (orthographic + perspective) and math integration
 - [ ] **Phase 4** — Textures, alpha blending

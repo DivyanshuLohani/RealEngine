@@ -6,13 +6,7 @@
 
 namespace RealEngine {
 
-enum class TextureFormat {
-    None = 0,
-    RGBA8,
-    RED_INTEGER,
-    DEPTH24STENCIL8,
-    Depth = DEPTH24STENCIL8
-};
+enum class TextureFormat { None = 0, RGBA8, RED_INTEGER, DEPTH24STENCIL8, Depth = DEPTH24STENCIL8 };
 
 struct FramebufferTextureSpecification {
     TextureFormat Format = TextureFormat::None;
