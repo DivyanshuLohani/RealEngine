@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Engine/Core/Base.h"
-#include "Engine/Events/Event.h"
-#include "Engine/Input/KeyCodes.h"
+#include "Core/Base.h"
+#include "Events/Event.h"
+#include "Input/KeyCodes.h"
 
 #include <sstream>
 

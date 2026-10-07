@@ -12,8 +12,10 @@ add_library(RealEngine STATIC ${RE_ENGINE_SOURCES})
 target_include_directories(RealEngine
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/Engine
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Engine
 )
 
 target_link_libraries(RealEngine

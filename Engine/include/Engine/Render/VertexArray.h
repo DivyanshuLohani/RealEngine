@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Engine/Core/Base.h"
-#include "Engine/Render/Buffer.h"
+#include "Core/Base.h"
+#include "Render/Buffer.h"
 
 #include <vector>
 

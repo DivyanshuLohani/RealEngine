@@ -1,7 +1,7 @@
 
 
-#include "Engine/Render/Shader.h"
-#include "Engine/Platform/OpenGL/OpenGLShader.h"
+#include "Render/Shader.h"
+#include "Platform/OpenGL/OpenGLShader.h"
 
 namespace RealEngine {
 

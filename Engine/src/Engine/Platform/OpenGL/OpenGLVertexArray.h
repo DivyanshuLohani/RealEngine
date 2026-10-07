@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Engine/Render/VertexArray.h"
+#include "Render/VertexArray.h"
 
 namespace RealEngine {
 

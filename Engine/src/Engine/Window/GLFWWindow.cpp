@@ -1,10 +1,10 @@
 #include "GLFWWindow.h"
 
-#include "Engine/Core/Log.h"
-#include "Engine/Events/ApplicationEvent.h"
-#include "Engine/Events/KeyEvent.h"
-#include "Engine/Events/MouseEvent.h"
-#include "Engine/Render/RenderContext.h"
+#include "Core/Log.h"
+#include "Events/ApplicationEvent.h"
+#include "Events/KeyEvent.h"
+#include "Events/MouseEvent.h"
+#include "Render/RenderContext.h"
 
 #include <GLFW/glfw3.h>
 

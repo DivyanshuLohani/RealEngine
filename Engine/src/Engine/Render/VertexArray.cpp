@@ -1,5 +1,5 @@
-#include "Engine/Render/VertexArray.h"
-#include "Engine/Platform/OpenGL/OpenGLVertexArray.h"
+#include "Render/VertexArray.h"
+#include "Platform/OpenGL/OpenGLVertexArray.h"
 
 namespace RealEngine {
 

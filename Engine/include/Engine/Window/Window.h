@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Engine/Core/Base.h"
-#include "Engine/Events/Event.h"
-#include "Engine/Window/WindowProps.h"
+#include "Core/Base.h"
+#include "Events/Event.h"
+#include "Window/WindowProps.h"
 
 #include <functional>
 

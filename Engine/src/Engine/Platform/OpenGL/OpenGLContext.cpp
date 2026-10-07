@@ -1,10 +1,10 @@
 #include "OpenGLContext.h"
 
-#include "Engine/Core/Assert.h"
-#include "Engine/Core/Log.h"
+#include "Core/Assert.h"
+#include "Core/Log.h"
 
-#include <GLFW/glfw3.h>
 #include <glad/gl.h>
+#include <GLFW/glfw3.h>
 
 namespace RealEngine {
 

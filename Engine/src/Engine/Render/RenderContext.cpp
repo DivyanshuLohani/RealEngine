@@ -1,7 +1,7 @@
-#include "Engine/Render/RenderContext.h"
+#include "Render/RenderContext.h"
 
-#include "Engine/Core/Assert.h"
-#include "Engine/Platform/OpenGL/OpenGLContext.h"
+#include "Core/Assert.h"
+#include "Platform/OpenGL/OpenGLContext.h"
 
 struct GLFWwindow;
 
