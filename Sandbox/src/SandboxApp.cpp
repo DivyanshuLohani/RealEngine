@@ -62,4 +62,10 @@ void SandboxApp::OnEvent(RealEngine::Event& e) {
 
         return false;
     });
+
+    dispatcher.Dispatch<RealEngine::WindowCloseEvent>([](RealEngine::WindowCloseEvent& event) {
+        RE_INFO("Window close event received - requesting close");
+        RealEngine::Application::Get().Close();
+        return true;
+    });
 }
