@@ -8,8 +8,6 @@
 
 namespace RealEngine {
 
-// Backend-agnostic shader program. Uniform setters are part of the public API so
-// renderer code never needs to know which graphics API is underneath.
 class Shader {
 public:
     virtual ~Shader() = default;
