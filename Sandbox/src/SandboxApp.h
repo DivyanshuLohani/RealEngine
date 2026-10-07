@@ -1,9 +1,9 @@
 #pragma once
 
 #include "Engine/Core/Application.h"
+#include "Engine/Render/Shader.h"
+#include "Engine/Render/VertexArray.h"
 
-// Minimal demo application: opens a window and animates the clear colour to
-// prove the window + render loop + event system are all wired up.
 class SandboxApp : public RealEngine::Application {
 public:
     SandboxApp();
@@ -11,4 +11,8 @@ public:
 
     void OnUpdate(RealEngine::Timestep ts) override;
     void OnEvent(RealEngine::Event& e) override;
+
+private:
+    RealEngine::Ref<RealEngine::VertexArray> m_VertexArray;
+    RealEngine::Ref<RealEngine::Shader> m_Shader;
 };
