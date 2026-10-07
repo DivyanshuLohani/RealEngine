@@ -1,49 +1,191 @@
-#include "Engine/Render/Shader.h"
+#include "Engine/Platform/OpenGL/OpenGLShader.h"
 
-#include <glad/gl.h>
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <stdexcept>
 
 namespace RealEngine {
-class OpenGLShader : public Shader {
-private:
-    GLuint m_RendererID;
-    std::string m_Name;
 
-public:
-    OpenGLShader(const std::string& filepath) : m_Name(filepath.substr(filepath.find_last_of("/\\") + 1)) {
-        // Load and compile shader from file
-    }
-    OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc) : m_Name(name) {
-        // Compile shader from source strings
+OpenGLShader::OpenGLShader(const std::string& filepath) : m_RendererID(0) {
+    std::ifstream file(filepath);
+
+    if (!file.is_open())
+        throw std::runtime_error("Could not open shader file: " + filepath);
+
+    std::stringstream buffer;
+    buffer << file.rdbuf();
+    std::string source = buffer.str();
+
+    // Find shader types
+    const std::string typeToken = "#type";
+    size_t pos = source.find(typeToken);
+
+    if (pos == std::string::npos)
+        throw std::runtime_error("Shader file missing #type declarations: " + filepath);
+
+    std::unordered_map<GLenum, std::string> shaderSources;
+
+    while (pos != std::string::npos) {
+        size_t eol = source.find_first_of("\r\n", pos);
+        size_t begin = pos + typeToken.size() + 1;
+
+        std::string type = source.substr(begin, eol - begin);
+
+        GLenum shaderType;
+
+        if (type == "vertex")
+            shaderType = GL_VERTEX_SHADER;
+        else if (type == "fragment" || type == "pixel")
+            shaderType = GL_FRAGMENT_SHADER;
+        else
+            throw std::runtime_error("Unknown shader type: " + type);
+
+        size_t nextLine = source.find_first_not_of("\r\n", eol);
+        pos = source.find(typeToken, nextLine);
+
+        shaderSources[shaderType] =
+            source.substr(nextLine, pos == std::string::npos ? source.size() - nextLine : pos - nextLine);
     }
 
-    virtual ~OpenGLShader() override;
+    m_Name = filepath;
 
-    void Bind() { glad_glUseProgram(m_RendererID); }
+    const std::string& vertexSrc = shaderSources[GL_VERTEX_SHADER];
+    const std::string& fragmentSrc = shaderSources[GL_FRAGMENT_SHADER];
 
-    void Unbind() { glad_glUseProgram(0); }
+    // Compile vertex shader
+    GLuint vertexShader = glad_glCreateShader(GL_VERTEX_SHADER);
 
-    void SetInt(const std::string& name, int value) {
-        glad_glUniform1i(glad_glGetUniformLocation(m_RendererID, name.c_str()), value);
-    }
-    void SetFloat(const std::string& name, float value) {
-        glad_glUniform1f(glad_glGetUniformLocation(m_RendererID, name.c_str()), value);
-    }
-    void SetFloat2(const std::string& name, const glm::vec2& value) {
-        glad_glUniform2f(glad_glGetUniformLocation(m_RendererID, name.c_str()), value.x, value.y);
-    }
-    void SetFloat3(const std::string& name, const glm::vec3& value) {
-        glad_glUniform3f(glad_glGetUniformLocation(m_RendererID, name.c_str()), value.x, value.y, value.z);
-    }
-    void SetFloat4(const std::string& name, const glm::vec4& value) {
-        glad_glUniform4f(glad_glGetUniformLocation(m_RendererID, name.c_str()), value.x, value.y, value.z, value.w);
-    }
-    void SetMat3(const std::string& name, const glm::mat3& value) {
-        glad_glUniformMatrix3fv(glad_glGetUniformLocation(m_RendererID, name.c_str()), 1, GL_FALSE, &value[0][0]);
-    }
-    void SetMat4(const std::string& name, const glm::mat4& value) {
-        glad_glUniformMatrix4fv(glad_glGetUniformLocation(m_RendererID, name.c_str()), 1, GL_FALSE, &value[0][0]);
+    const char* vertexSource = vertexSrc.c_str();
+    glad_glShaderSource(vertexShader, 1, &vertexSource, nullptr);
+    glad_glCompileShader(vertexShader);
+
+    GLint success;
+    glad_glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+
+    if (!success) {
+        char infoLog[1024];
+        glad_glGetShaderInfoLog(vertexShader, 1024, nullptr, infoLog);
+
+        glad_glDeleteShader(vertexShader);
+
+        throw std::runtime_error("Vertex shader compilation failed:\n" + std::string(infoLog));
     }
 
-    const std::string& GetName() const override { return m_Name; }
-};
-}; // namespace RealEngine
+    // Compile fragment shader
+    GLuint fragmentShader = glad_glCreateShader(GL_FRAGMENT_SHADER);
+
+    const char* fragmentSource = fragmentSrc.c_str();
+    glad_glShaderSource(fragmentShader, 1, &fragmentSource, nullptr);
+    glad_glCompileShader(fragmentShader);
+
+    glad_glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
+
+    if (!success) {
+        char infoLog[1024];
+        glad_glGetShaderInfoLog(fragmentShader, 1024, nullptr, infoLog);
+
+        glad_glDeleteShader(vertexShader);
+        glad_glDeleteShader(fragmentShader);
+
+        throw std::runtime_error("Fragment shader compilation failed:\n" + std::string(infoLog));
+    }
+
+    // Create shader program
+    m_RendererID = glad_glCreateProgram();
+
+    glad_glAttachShader(m_RendererID, vertexShader);
+    glad_glAttachShader(m_RendererID, fragmentShader);
+
+    glad_glLinkProgram(m_RendererID);
+
+    glad_glGetProgramiv(m_RendererID, GL_LINK_STATUS, &success);
+
+    if (!success) {
+        char infoLog[1024];
+        glad_glGetProgramInfoLog(m_RendererID, 1024, nullptr, infoLog);
+
+        glad_glDeleteShader(vertexShader);
+        glad_glDeleteShader(fragmentShader);
+        glad_glDeleteProgram(m_RendererID);
+        m_RendererID = 0;
+
+        throw std::runtime_error("Shader program linking failed:\n" + std::string(infoLog));
+    }
+
+    // Shaders are no longer needed after linking
+    glad_glDeleteShader(vertexShader);
+    glad_glDeleteShader(fragmentShader);
+}
+
+OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
+    : m_RendererID(0), m_Name(name) {
+    // Compile vertex shader
+    GLuint vertexShader = glad_glCreateShader(GL_VERTEX_SHADER);
+
+    const char* vertexSource = vertexSrc.c_str();
+    glad_glShaderSource(vertexShader, 1, &vertexSource, nullptr);
+    glad_glCompileShader(vertexShader);
+
+    GLint success;
+    glad_glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+
+    if (!success) {
+        char infoLog[1024];
+        glad_glGetShaderInfoLog(vertexShader, 1024, nullptr, infoLog);
+
+        glad_glDeleteShader(vertexShader);
+
+        throw std::runtime_error("Vertex shader compilation failed:\n" + std::string(infoLog));
+    }
+
+    // Compile fragment shader
+    GLuint fragmentShader = glad_glCreateShader(GL_FRAGMENT_SHADER);
+
+    const char* fragmentSource = fragmentSrc.c_str();
+    glad_glShaderSource(fragmentShader, 1, &fragmentSource, nullptr);
+    glad_glCompileShader(fragmentShader);
+
+    glad_glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
+
+    if (!success) {
+        char infoLog[1024];
+        glad_glGetShaderInfoLog(fragmentShader, 1024, nullptr, infoLog);
+
+        glad_glDeleteShader(vertexShader);
+        glad_glDeleteShader(fragmentShader);
+
+        throw std::runtime_error("Fragment shader compilation failed:\n" + std::string(infoLog));
+    }
+
+    // Create program
+    m_RendererID = glad_glCreateProgram();
+
+    glad_glAttachShader(m_RendererID, vertexShader);
+    glad_glAttachShader(m_RendererID, fragmentShader);
+
+    glad_glLinkProgram(m_RendererID);
+
+    glad_glGetProgramiv(m_RendererID, GL_LINK_STATUS, &success);
+
+    if (!success) {
+        char infoLog[1024];
+        glad_glGetProgramInfoLog(m_RendererID, 1024, nullptr, infoLog);
+
+        glad_glDeleteShader(vertexShader);
+        glad_glDeleteShader(fragmentShader);
+        glad_glDeleteProgram(m_RendererID);
+        m_RendererID = 0;
+
+        throw std::runtime_error("Shader program linking failed:\n" + std::string(infoLog));
+    }
+
+    glad_glDeleteShader(vertexShader);
+    glad_glDeleteShader(fragmentShader);
+}
+
+OpenGLShader::~OpenGLShader() {
+    glad_glDeleteProgram(m_RendererID);
+}
+
+} // namespace RealEngine
