@@ -3,13 +3,12 @@
 #include "Engine/Core/Assert.h"
 #include "Engine/Core/Log.h"
 
-#include <glad/gl.h>
 #include <GLFW/glfw3.h>
+#include <glad/gl.h>
 
 namespace RealEngine {
 
-OpenGLContext::OpenGLContext(GLFWwindow* windowHandle)
-    : m_WindowHandle(windowHandle) {
+OpenGLContext::OpenGLContext(GLFWwindow* windowHandle) : m_WindowHandle(windowHandle) {
     RE_CORE_ASSERT(m_WindowHandle, "OpenGLContext: window handle is null");
 }
 

@@ -12,9 +12,7 @@ struct WindowProps {
     uint32_t Height;
     bool VSync;
 
-    WindowProps(const std::string& title = "RealEngine",
-                uint32_t width = 1280,
-                uint32_t height = 720,
+    WindowProps(const std::string& title = "RealEngine", uint32_t width = 1280, uint32_t height = 720,
                 bool vsync = true)
         : Title(title), Width(width), Height(height), VSync(vsync) {}
 };

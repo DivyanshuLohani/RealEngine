@@ -15,7 +15,7 @@ Application::Application(const std::string& name) {
     s_Instance = this;
 
     m_Window = Scope<Window>(Window::Create(WindowProps(name)));
-    m_Window->SetEventCallback(RE_BIND_EVENT_FN(Application::OnEvent));
+    m_Window->SetEventCallback(RE_BIND_EVENT_FN(OnEvent));
 
     Renderer::Init();
     Renderer::SetViewport(0, 0, m_Window->GetWidth(), m_Window->GetHeight());
@@ -39,8 +39,6 @@ void Application::Run() {
 
         const Timestep dt = 1 / m_PhysicsFrameRate;
 
-        // Clear the back buffer with the current clear colour, then let the
-        // application update and (from Phase 2) submit draw work.
         Renderer::Clear();
 
         if (!m_Minimized)

@@ -5,31 +5,29 @@
 
 #include <GLFW/glfw3.h>
 
-// Keyboard and mouse callbacks, split out of GLFWWindow.cpp to keep each
-// translation unit focused.
 namespace RealEngine {
 
 void GLFWWindow::RegisterInputCallbacks() {
     glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int /*scancode*/, int action, int /*mods*/) {
         WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
         switch (action) {
-            case GLFW_PRESS: {
-                KeyPressedEvent event(static_cast<KeyCode>(key), false);
-                data.EventCallback(event);
-                break;
-            }
-            case GLFW_RELEASE: {
-                KeyReleasedEvent event(static_cast<KeyCode>(key));
-                data.EventCallback(event);
-                break;
-            }
-            case GLFW_REPEAT: {
-                KeyPressedEvent event(static_cast<KeyCode>(key), true);
-                data.EventCallback(event);
-                break;
-            }
-            default:
-                break;
+        case GLFW_PRESS: {
+            KeyPressedEvent event(static_cast<KeyCode>(key), false);
+            data.EventCallback(event);
+            break;
+        }
+        case GLFW_RELEASE: {
+            KeyReleasedEvent event(static_cast<KeyCode>(key));
+            data.EventCallback(event);
+            break;
+        }
+        case GLFW_REPEAT: {
+            KeyPressedEvent event(static_cast<KeyCode>(key), true);
+            data.EventCallback(event);
+            break;
+        }
+        default:
+            break;
         }
     });
 
@@ -42,18 +40,18 @@ void GLFWWindow::RegisterInputCallbacks() {
     glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int /*mods*/) {
         WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
         switch (action) {
-            case GLFW_PRESS: {
-                MouseButtonPressedEvent event(static_cast<MouseCode>(button));
-                data.EventCallback(event);
-                break;
-            }
-            case GLFW_RELEASE: {
-                MouseButtonReleasedEvent event(static_cast<MouseCode>(button));
-                data.EventCallback(event);
-                break;
-            }
-            default:
-                break;
+        case GLFW_PRESS: {
+            MouseButtonPressedEvent event(static_cast<MouseCode>(button));
+            data.EventCallback(event);
+            break;
+        }
+        case GLFW_RELEASE: {
+            MouseButtonReleasedEvent event(static_cast<MouseCode>(button));
+            data.EventCallback(event);
+            break;
+        }
+        default:
+            break;
         }
     });
 

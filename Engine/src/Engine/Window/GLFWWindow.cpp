@@ -48,8 +48,8 @@ void GLFWWindow::Init(const WindowProps& props) {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    m_Window = glfwCreateWindow(static_cast<int>(props.Width), static_cast<int>(props.Height),
-                                m_Data.Title.c_str(), nullptr, nullptr);
+    m_Window = glfwCreateWindow(static_cast<int>(props.Width), static_cast<int>(props.Height), m_Data.Title.c_str(),
+                                nullptr, nullptr);
     if (!m_Window) {
         RE_CORE_CRITICAL("Failed to create GLFW window");
         std::abort();
