@@ -86,7 +86,9 @@ bool Application::OnWindowResize(WindowResizeEvent& e) {
 
 void Application::OnEvent(Event& e) {
     EventDispatcher dispatcher(e);
+#ifndef RE_DISABLE_TERMINATE_ON_CLOSE
     dispatcher.Dispatch<WindowCloseEvent>(RE_BIND_EVENT_FN(Application::OnWindowClose));
+#endif
     dispatcher.Dispatch<WindowResizeEvent>(RE_BIND_EVENT_FN(Application::OnWindowResize));
 
     if (!e.Handled) {
