@@ -1,0 +1,29 @@
+# Build output
+build/
+out/
+cmake-build-*/
+*.o
+*.obj
+*.a
+*.so
+*.so.*
+*.dylib
+*.dll
+*.exe
+*.pdb
+*.ilk
+compile_commands.json
+CMakeCache.txt
+CMakeFiles/
+CMakeUserPresets.json
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+*~
+imgui.ini
+
+# OS
+.DS_Store
+Thumbs.db
