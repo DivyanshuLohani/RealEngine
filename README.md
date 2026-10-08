@@ -70,12 +70,17 @@ RealEngine/
 └── Assets/                 Runtime assets (shaders, textures, models)
 ```
 
+### Some docs
+
+The `RE_DISABLE_TERMINATE_ON_CLOSE` is used to disable the default behaviour of close window
+
+
 ## Roadmap
 
 - [x] **Phase 0** — Project skeleton, build system, GLFW window, logging, events, clear-color loop
 - [X] **Phase 1** — Delta time, input abstraction, resize handling
-- [ ] **Phase 2** — RHI + OpenGL backend: buffers, shaders, vertex arrays, first triangle
-- [ ] **Phase 3** — Cameras (orthographic + perspective) and math integration
+- [X] **Phase 2** — RHI + OpenGL backend: buffers, shaders, vertex arrays, first triangle
+- [X] **Phase 3** — Cameras (orthographic + perspective) and math integration
 - [ ] **Phase 4** — Textures, alpha blending
 - [ ] **Phase 5** — Batched 2D sprite renderer
 - [ ] **Phase 6** — 3D meshes, Blinn-Phong forward lighting, materials

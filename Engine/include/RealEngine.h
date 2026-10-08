@@ -17,11 +17,14 @@
 #include "ImGui/ImGuiLayer.h"
 #include <imgui.h>
 
+#include "Input/Input.h"
 #include "Input/KeyCodes.h"
 #include "Input/MouseCodes.h"
 
 #include "Render/Buffer.h"
 #include "Render/Framebuffer.h"
+#include "Render/OrthographicCamera.h"
+#include "Render/PrespectiveCamera.h"
 #include "Render/RenderContext.h"
 #include "Render/Renderer.h"
 #include "Render/RendererAPI.h"

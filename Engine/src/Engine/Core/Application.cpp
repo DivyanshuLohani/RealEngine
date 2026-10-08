@@ -4,6 +4,7 @@
 #include "Core/Log.h"
 #include "Core/Time.h"
 #include "ImGui/ImGuiLayer.h"
+#include "Input/Input.h"
 #include "Render/Renderer.h"
 
 #include <chrono>
@@ -44,6 +45,7 @@ void Application::Run() {
         lastFrameTime = now;
 
         Time::Update(ts);
+        Input::Update();
 
         const Timestep dt = 1 / m_PhysicsFrameRate;
 
@@ -59,7 +61,6 @@ void Application::Run() {
         OnImGuiRender();
         m_ImGuiLayer->End();
 
-        // Poll OS events and present the frame.
         m_Window->OnUpdate();
     }
 }
