@@ -3,6 +3,8 @@
 #include "Core/Assert.h"
 #include "Platform/OpenGL/OpenGLRendererAPI.h"
 
+#include "Render/Renderer2D.h"
+
 namespace RealEngine {
 
 RendererAPI::API RendererAPI::s_API = RendererAPI::API::OpenGL;
@@ -19,9 +21,11 @@ void Renderer::Init() {
 #endif
 
     s_RendererAPI->Init();
+    Renderer2D::Init();
 }
 
 void Renderer::Shutdown() {
+    Renderer2D::Shutdown();
     s_RendererAPI.reset();
 }
 

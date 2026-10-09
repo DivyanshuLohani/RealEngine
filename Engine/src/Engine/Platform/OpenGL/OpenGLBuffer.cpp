@@ -4,10 +4,21 @@
 
 namespace RealEngine {
 
+OpenGLVertexBuffer::OpenGLVertexBuffer(uint32_t size) {
+    glGenBuffers(1, &m_RendererID);
+    glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
+    glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(size), nullptr, GL_DYNAMIC_DRAW);
+}
+
 OpenGLVertexBuffer::OpenGLVertexBuffer(const void* vertices, uint32_t size) {
     glGenBuffers(1, &m_RendererID);
     glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
     glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(size), vertices, GL_STATIC_DRAW);
+}
+
+void OpenGLVertexBuffer::SetData(const void* data, uint32_t size) {
+    glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, static_cast<GLsizeiptr>(size), data);
 }
 
 OpenGLVertexBuffer::~OpenGLVertexBuffer() {

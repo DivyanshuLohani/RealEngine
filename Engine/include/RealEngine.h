@@ -27,6 +27,7 @@
 #include "Render/PrespectiveCamera.h"
 #include "Render/RenderContext.h"
 #include "Render/Renderer.h"
+#include "Render/Renderer2D.h"
 #include "Render/RendererAPI.h"
 #include "Render/Shader.h"
 #include "Render/Texture.h"

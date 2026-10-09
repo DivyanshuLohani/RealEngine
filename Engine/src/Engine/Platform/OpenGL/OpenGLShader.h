@@ -27,6 +27,10 @@ public:
         glad_glUniform1i(glad_glGetUniformLocation(m_RendererID, name.c_str()), value);
     }
 
+    void SetIntArray(const std::string& name, int* values, uint32_t count) override {
+        glad_glUniform1iv(glad_glGetUniformLocation(m_RendererID, name.c_str()), static_cast<GLsizei>(count), values);
+    }
+
     void SetFloat(const std::string& name, float value) override {
         glad_glUniform1f(glad_glGetUniformLocation(m_RendererID, name.c_str()), value);
     }
