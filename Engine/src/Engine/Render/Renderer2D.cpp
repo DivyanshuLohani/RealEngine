@@ -104,6 +104,14 @@ void Renderer2D::Init() {
 void Renderer2D::Shutdown() {
     delete[] s_Data.QuadVertexBufferBase;
     s_Data.QuadVertexBufferBase = nullptr;
+
+    for (uint32_t i = 0; i < Renderer2DData::MaxTextureSlots; i++) {
+        s_Data.TextureSlots[i].reset();
+    }
+    s_Data.WhiteTexture.reset();
+    s_Data.QuadShader.reset();
+    s_Data.QuadVertexBuffer.reset();
+    s_Data.QuadVertexArray.reset();
 }
 
 void Renderer2D::BeginScene(const OrthographicCamera& camera) {
@@ -159,8 +167,8 @@ void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, cons
         FlushAndReset();
     }
 
-    glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) *
-                          glm::scale(glm::mat4(1.0f), {size.x, size.y, 1.0f});
+    glm::mat4 transform =
+        glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), {size.x, size.y, 1.0f});
 
     for (size_t i = 0; i < quadVertexCount; i++) {
         s_Data.QuadVertexBufferPtr->Position = transform * s_Data.QuadVertexPositions[i];
@@ -176,12 +184,12 @@ void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, cons
 }
 
 void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture,
-                         float tilingFactor, const glm::vec4& tintColor) {
+                          float tilingFactor, const glm::vec4& tintColor) {
     DrawQuad({position.x, position.y, 0.0f}, size, texture, tilingFactor, tintColor);
 }
 
 void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture,
-                         float tilingFactor, const glm::vec4& tintColor) {
+                          float tilingFactor, const glm::vec4& tintColor) {
     constexpr size_t quadVertexCount = 4;
     constexpr glm::vec2 textureCoords[] = {{0.0f, 0.0f}, {1.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 1.0f}};
 
@@ -207,8 +215,8 @@ void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, cons
         s_Data.TextureSlotIndex++;
     }
 
-    glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) *
-                          glm::scale(glm::mat4(1.0f), {size.x, size.y, 1.0f});
+    glm::mat4 transform =
+        glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), {size.x, size.y, 1.0f});
 
     for (size_t i = 0; i < quadVertexCount; i++) {
         s_Data.QuadVertexBufferPtr->Position = transform * s_Data.QuadVertexPositions[i];
@@ -224,12 +232,12 @@ void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, cons
 }
 
 void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation,
-                                const glm::vec4& color) {
+                                 const glm::vec4& color) {
     DrawRotatedQuad({position.x, position.y, 0.0f}, size, rotation, color);
 }
 
 void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation,
-                                const glm::vec4& color) {
+                                 const glm::vec4& color) {
     constexpr size_t quadVertexCount = 4;
     const float textureIndex = 0.0f; // White Texture
     constexpr glm::vec2 textureCoords[] = {{0.0f, 0.0f}, {1.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 1.0f}};
@@ -257,14 +265,12 @@ void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const glm::vec2& siz
 }
 
 void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation,
-                                const Ref<Texture2D>& texture, float tilingFactor,
-                                const glm::vec4& tintColor) {
+                                 const Ref<Texture2D>& texture, float tilingFactor, const glm::vec4& tintColor) {
     DrawRotatedQuad({position.x, position.y, 0.0f}, size, rotation, texture, tilingFactor, tintColor);
 }
 
 void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation,
-                                const Ref<Texture2D>& texture, float tilingFactor,
-                                const glm::vec4& tintColor) {
+                                 const Ref<Texture2D>& texture, float tilingFactor, const glm::vec4& tintColor) {
     constexpr size_t quadVertexCount = 4;
     constexpr glm::vec2 textureCoords[] = {{0.0f, 0.0f}, {1.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 1.0f}};
 

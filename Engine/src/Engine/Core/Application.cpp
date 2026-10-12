@@ -32,6 +32,7 @@ Application::Application(const std::string& name) {
 Application::~Application() {
     m_ImGuiLayer->Shutdown();
     Renderer::Shutdown();
+    m_Window.reset();
 }
 
 void Application::Run() {
